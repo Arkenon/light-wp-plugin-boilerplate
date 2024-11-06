@@ -8,6 +8,8 @@ It supports block development with React, ESNext, and JSX compilation.
 
 Useful for simple and small projects.
 
+If you need a plugin for large projects includes multiple post types, custom fields, custom taxonomies and more, you can use [[Clean Wp Plugin Boilerplate](https://github.com/Arkenon/clean-wp-plugin-boilerplate)]
+
 ## Installation
 
 The Boilerplate can be installed directly into your plugins folder.

@@ -16,7 +16,7 @@ use PluginName\Common\DI;
 use PluginName\Presentation\Admin\Controllers\AdminController;
 use PluginName\Presentation\Client\Controllers\ClientController;
 
-final class Program {
+final class ControllerInit {
 
 	/**
 	 * List of controllers to be initialized

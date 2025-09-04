@@ -12,7 +12,6 @@ use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
 use PluginName\Services\BlockService;
-use PluginName\Services\i18nService;
 use PluginName\Common\DI;
 use PluginName\Presentation\ControllerInit;
 
@@ -21,22 +20,12 @@ defined( 'ABSPATH' ) || exit;
 final class App {
 
 	/**
-	 * List of services to be initialized on 'plugins_loaded' action
+	 * List of services to be initialized
 	 * @var array
 	 * @since 1.0.0
 	 */
-	private array $pluginsLoaded = [
-		BlockService::class,
-	];
-
-	/**
-	 * List of services to be initialized on 'init' action
-	 * Made required with WordPress 6.7
-	 * @var array
-	 * @since 1.0.0
-	 */
-	private array $init = [
-		i18nService::class,
+	private array $services = [
+		BlockService::class
 	];
 
 	/**
@@ -45,7 +34,7 @@ final class App {
 	 * @var array
 	 * @since 1.0.0
 	 */
-	private array $controllerInit = [
+	private array $controllers = [
 		ControllerInit::class
 	];
 
@@ -55,9 +44,17 @@ final class App {
 	 * @since 1.0.0
 	 */
 	public function run(): void {
-		//Services
-		add_action( 'init', [ $this, 'coreInit' ] );
+		//Define a hook runs before initializing the plugin
+		do_action( 'plugin_name_before_init' );
+
+		// Load all services
 		add_action( 'plugins_loaded', [ $this, 'initPluginServices' ] );
+
+		//Load all controllers
+		add_action( 'init', [ $this, 'initPluginControllers' ], 5 );
+
+		//Define a hook runs after initializing the plugin
+		do_action( 'plugin_name_after_init' );
 	}
 
 	/**
@@ -67,27 +64,26 @@ final class App {
 	 * @throws Exception
 	 * @since 1.0.0
 	 */
-	public function initPluginServices() {
-		//Define a hook runs before initializing the plugin
-		do_action( 'plugin_name_after_init' );
-
-		$classes = array_merge( $this->pluginsLoaded, $this->controllerInit );
-
-		foreach ( $classes as $class ) {
-			DI::container()->get( $class );
+	public function initPluginServices(): void
+	{
+		//Initialize all services
+		foreach ( $this->services as $service ) {
+			DI::container()->get( $service );
 		}
-		//Define a hook runs after initializing the plugin
-		do_action( 'plugin_name_after_init' );
 	}
 
 	/**
+	 * Initialize all controllers
+	 * @throws Exception
 	 * @throws DependencyException
 	 * @throws NotFoundException
-	 * @throws Exception
+	 * @since 1.0.0
 	 */
-	public function coreInit() {
-		foreach ( $this->init as $class ) {
-			DI::container()->get( $class );
+	public function initPluginControllers(): void
+	{
+		//Initialize all controllers
+		foreach ( $this->controllers as $controller ) {
+			DI::container()->get( $controller );
 		}
 	}
 }

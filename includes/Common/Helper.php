@@ -3,11 +3,11 @@
  * Helper class for common functions
  *
  * @package PluginName
- * @subpackage Common
+ * @subpackage Common\Helpers
  * @since 1.0.0
  */
 
-namespace PluginName\Common;
+namespace PluginName\Common\Helpers;
 
 defined( 'ABSPATH' ) || exit;
 
@@ -51,6 +51,8 @@ class Helper {
 					return sanitize_user( $value );
 				case "bool":
 					return rest_sanitize_boolean( $value );
+				case "key":
+					return sanitize_key( $value );
 				default:
 					return $value;
 			}

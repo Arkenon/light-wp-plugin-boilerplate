@@ -37,8 +37,9 @@ if ( ! function_exists( 'pluginNameInitActivation' ) ) {
 	 * @throws DependencyException
 	 * @throws NotFoundException
 	 * @throws Exception
+	 * @since 1.0.0
 	 */
-	function pluginNameInitActivation() {
+	function pluginNameInitActivation() : void {
 		DI::container()->get( ActivationService::class )->activate();
 	}
 
@@ -51,8 +52,9 @@ if ( ! function_exists( 'pluginNameInitDeactivation' ) ) {
 	 * @throws DependencyException
 	 * @throws NotFoundException
 	 * @throws Exception
+	 * @since 1.0.0
 	 */
-	function pluginNameInitDeactivation() {
+	function pluginNameInitDeactivation() : void {
 		DI::container()->get( DeactivationService::class )->deactivate();
 	}
 
@@ -65,6 +67,7 @@ if ( class_exists( App::class ) ) {
 	 * @throws DependencyException
 	 * @throws NotFoundException
 	 * @throws Exception
+	 * @since 1.0.0
 	 */
 	try {
 		DI::container()->get( App::class )->run();

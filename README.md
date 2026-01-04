@@ -10,6 +10,10 @@ Useful for simple and small projects.
 
 If you need a plugin for large projects includes multiple post types, custom fields, custom taxonomies and more, you can use [[Clean Wp Plugin Boilerplate](https://github.com/Arkenon/clean-wp-plugin-boilerplate)]
 
+Download the plugin files from Code -> Download ZIP section or:
+
+Clone the repository via Https: `git clone https://github.com/Arkenon/light-wp-plugin-boilerplate.git`
+
 Then follow these steps:
 
 * change `plugin_name` to `example_me`

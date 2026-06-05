@@ -1,4 +1,6 @@
-<?php declare( strict_types=1 );
+<?php
+
+declare(strict_types=1);
 /**
  * Plugin Name:       Light Wp Plugin Boilerplate
  * Description:       Modern plugin boilerplate for WordPress.
@@ -13,7 +15,7 @@
  * @package PluginName
  */
 
-defined( 'ABSPATH' ) || exit;
+defined('ABSPATH') || exit;
 
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -23,46 +25,50 @@ use PluginName\Services\DeactivationService;
 use PluginName\Common\DI;
 
 
-if ( is_readable( __DIR__ . '/vendor/autoload.php' ) ) {
+if (is_readable(__DIR__ . '/vendor/autoload.php')) {
 	require_once __DIR__ . '/vendor/autoload.php';
 }
 
-define( 'PLUGIN_NAME_VERSION', get_file_data( __FILE__, array( 'version' => 'Version' ) )['version'] );
-define( 'PLUGIN_NAME_URL', rtrim( plugin_dir_url( __FILE__ ), '/' ) . '/' );
-define( 'PLUGIN_NAME_PATH', plugin_dir_path( __FILE__ ) );
+define('PLUGIN_NAME_VERSION', get_file_data(__FILE__, array('version' => 'Version'))['version']);
+define('PLUGIN_NAME_URL', rtrim(plugin_dir_url(__FILE__), '/') . '/');
+define('PLUGIN_NAME_PATH', plugin_dir_path(__FILE__));
 
 //Activation
-if ( ! function_exists( 'pluginNameInitActivation' ) ) {
+if (! function_exists('pluginNameInitActivation')) {
 	/**
 	 * @throws DependencyException
 	 * @throws NotFoundException
 	 * @throws Exception
 	 * @since 1.0.0
 	 */
-	function pluginNameInitActivation() : void {
-		DI::container()->get( ActivationService::class )->activate();
+	function pluginNameInitActivation(): void
+	{
+		$activation_service = new ActivationService();
+		$activation_service->activate();
 	}
 
-	register_activation_hook( __FILE__, 'pluginNameInitActivation' );
+	register_activation_hook(__FILE__, 'pluginNameInitActivation');
 }
 
 //Deactivation
-if ( ! function_exists( 'pluginNameInitDeactivation' ) ) {
+if (! function_exists('pluginNameInitDeactivation')) {
 	/**
 	 * @throws DependencyException
 	 * @throws NotFoundException
 	 * @throws Exception
 	 * @since 1.0.0
 	 */
-	function pluginNameInitDeactivation() : void {
-		DI::container()->get( DeactivationService::class )->deactivate();
+	function pluginNameInitDeactivation(): void
+	{
+		$deactivation_service = new DeactivationService();
+		$deactivation_service->deactivate();
 	}
 
-	register_deactivation_hook( __FILE__, 'pluginNameInitDeactivation' );
+	register_deactivation_hook(__FILE__, 'pluginNameInitDeactivation');
 }
 
 //Run plugin
-if ( class_exists( App::class ) ) {
+if (class_exists(App::class)) {
 	/**
 	 * @throws DependencyException
 	 * @throws NotFoundException
@@ -70,8 +76,9 @@ if ( class_exists( App::class ) ) {
 	 * @since 1.0.0
 	 */
 	try {
-		DI::container()->get( App::class )->run();
-	} catch ( DependencyException | Exception $e ) {
-		wp_die( $e->getMessage() );
+		$app = new App();
+		$app->run();
+	} catch (DependencyException | Exception $e) {
+		wp_die($e->getMessage());
 	}
 }

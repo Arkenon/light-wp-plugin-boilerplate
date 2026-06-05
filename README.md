@@ -27,6 +27,7 @@ Then follow these steps:
 
 * Install composer dependencies `composer update`
 
+* Update autoload `composer dump-autoload`
 
 * Install dependencies `npm i`
 
